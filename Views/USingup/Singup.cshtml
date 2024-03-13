@@ -1,0 +1,87 @@
+﻿@model UserSingup
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Sign Up Page</title>
+    <style>
+        body {
+            background-image: url('/assets/images/Simg/sigup.jpg');
+            background-size: cover;
+        }
+
+        .signup-form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+
+        }
+        .signup-heading {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .signup-button {
+            border-radius: 15px;
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- <form class="signup-form   "> -->
+                <form class="signup-form" action="/Singup" method="post">
+                    <h2 class="signup-heading">Sign Up</h2>
+
+                    <!-- Name Input -->
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input asp-for="Name" class="form-control" name="name" placeholder="Enter your name" autocomplete="name" required>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input asp-for="Email" class="form-control"  placeholder="Enter your email" autocomplete="eamil">
+                        <div class="text-danger" style="font-size:15px">
+                            @ViewBag.email
+                        </div>
+                    </div>
+                    <!-- Phone Input -->
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input asp-for="PhoneNumber" type="number" class="form-control"  placeholder="Enter your phone number" autocomplete="mobile" >
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input asp-for="Password" class="form-control" placeholder="Enter your password" >
+                    </div>
+
+                    <!-- Sign Up Button -->
+                    <button type="submit" class="btn btn-warning   btn-block signup-button">Sign Up</button>
+
+                    <!-- Sign In Link -->
+                    <p class="signin-link">Already have an account? <a href="/signIn">Sign in</a></p>
+                    <a href="/home">Back</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

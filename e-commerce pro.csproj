@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>e_commerce_pro</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\fonts\flaming\flaming-webfont.woff2" />
+    <None Include="wwwroot\assets\fonts\icon51c1.svg" />
+    <None Include="wwwroot\assets\fonts\icon51c1.woff2" />
+    <None Include="wwwroot\assets\fonts\molla0ab2.svg" />
+    <None Include="wwwroot\assets\fonts\molla0ab2.woff2" />
+    <None Include="wwwroot\assets\images\icons\safari-pinned-tab.svg" />
+    <None Include="wwwroot\assets\js\bootstrap-input-spinner.js" />
+    <None Include="wwwroot\assets\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assets\js\demos\demo-10.js" />
+    <None Include="wwwroot\assets\js\demos\demo-11.js" />
+    <None Include="wwwroot\assets\js\demos\demo-12.js" />
+    <None Include="wwwroot\assets\js\demos\demo-13.js" />
+    <None Include="wwwroot\assets\js\demos\demo-14.js" />
+    <None Include="wwwroot\assets\js\demos\demo-15.js" />
+    <None Include="wwwroot\assets\js\demos\demo-16.js" />
+    <None Include="wwwroot\assets\js\demos\demo-17.js" />
+    <None Include="wwwroot\assets\js\demos\demo-18.js" />
+    <None Include="wwwroot\assets\js\demos\demo-19.js" />
+    <None Include="wwwroot\assets\js\demos\demo-2.js" />
+    <None Include="wwwroot\assets\js\demos\demo-20.js" />
+    <None Include="wwwroot\assets\js\demos\demo-21.js" />
+    <None Include="wwwroot\assets\js\demos\demo-24.js" />
+    <None Include="wwwroot\assets\js\demos\demo-3.js" />
+    <None Include="wwwroot\assets\js\demos\demo-4.js" />
+    <None Include="wwwroot\assets\js\demos\demo-5.js" />
+    <None Include="wwwroot\assets\js\demos\demo-6.js" />
+    <None Include="wwwroot\assets\js\demos\demo-7.js" />
+    <None Include="wwwroot\assets\js\demos\demo-8.js" />
+    <None Include="wwwroot\assets\js\demos\demo-9.js" />
+    <None Include="wwwroot\assets\js\imagesloaded.pkgd.min.js" />
+    <None Include="wwwroot\assets\js\isotope.pkgd.min.js" />
+    <None Include="wwwroot\assets\js\jquery.countdown.min.js" />
+    <None Include="wwwroot\assets\js\jquery.countTo.js" />
+    <None Include="wwwroot\assets\js\jquery.elevateZoom.min.js" />
+    <None Include="wwwroot\assets\js\jquery.hoverIntent.min.js" />
+    <None Include="wwwroot\assets\js\jquery.magnific-popup.min.js" />
+    <None Include="wwwroot\assets\js\jquery.min.js" />
+    <None Include="wwwroot\assets\js\jquery.plugin.min.js" />
+    <None Include="wwwroot\assets\js\jquery.sticky-kit.min.js" />
+    <None Include="wwwroot\assets\js\jquery.waypoints.min.js" />
+    <None Include="wwwroot\assets\js\main.js" />
+    <None Include="wwwroot\assets\js\nouislider.min.js" />
+    <None Include="wwwroot\assets\js\owl.carousel.min.js" />
+    <None Include="wwwroot\assets\js\superfish.min.js" />
+    <None Include="wwwroot\assets\js\wNumb.js" />
+    <None Include="wwwroot\assets\main.js" />
+    <None Include="wwwroot\assets\vendor\line-awesome\line-awesome\line-awesome\fonts\line-awesomeeb4f.svg" />
+    <None Include="wwwroot\assets\vendor\line-awesome\line-awesome\line-awesome\fonts\line-awesomeeb4f.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.0-preview.1.24080.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\AdminSide\NewFolder\" />
+    <Folder Include="wwwroot\Adassets\fonts\material-icon\css\" />
+    <Folder Include="wwwroot\images\Product\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,139 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDsh.cshtml";
+}
+@model Products
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Edit Product</h2>
+        </div>
+    </div>
+    <form asp-controller="Product" asp-action="EditProdect" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control" placeholder="">
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="Description">Description</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Description" rows="4" required></textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" type="number" class="form-control" placeholder="">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Stock">Quantity</label>
+                <input asp-for="Stock" type="number" class="form-control">
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="CategaryId">Category</label>
+                <select asp-for="CategaryId" asp-items="@ViewBag.CategoryList" class="form-control">
+                    <option selected>Choose...</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label asp-for="imagUrl">Images</label>
+                <div class="card-body">
+                    <div class="input-upload">
+                        @foreach (var imageUrl in Model.imagUrl)
+                        {
+                            <img src="@imageUrl" alt="Product Image" class="img-thumbnail image-spacing" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                <input type="file" name="img1" class="form-control" accept="image/*">
+                <input type="file" name="img2" class="form-control" accept="image/*">
+                <input type="file" name="img3" class="form-control" accept="image/*">
+                <input type="file" name="img4" class="form-control" accept="image/*">
+          
+    
+        
+
+        <button type="submit" class="btn btn-primary">Update Product</button>
+    </form>
+</section>
+
+ <style>
+    form {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* Add border and underline styles */
+    input,
+    textarea,
+    select {
+        border: 1px solid #ddd;
+    }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+    /* Add some spacing between form rows */
+    .form-row {
+        margin-bottom: 20px;
+    }
+
+    /* Add an underline effect */
+    input[type="text"] {
+        border-bottom: 2px solid #ddd;
+    }
+
+    /* Adjust spacing and underline for the ZIP input */
+    .form-group.col-md-2 input[type="text"] {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .image-spacing {
+        margin-right: 10px; /* Adjust the value to control the spacing */
+    }
+
+    .image-spacing {
+        padding: 5px; /* Adjust the value to control the spacing */
+    }
+
+
+     
+  </style>
+

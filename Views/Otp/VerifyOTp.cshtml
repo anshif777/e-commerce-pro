@@ -1,0 +1,158 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>OTP Verification</title>
+    <style>
+        body {
+            background: url('./users/assets/images/backgrounds/8-otp.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .otp-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .verification-header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            margin: 0 5px;
+            text-align: center;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            color: #007bff;
+        }
+
+            .otp-input:focus {
+                outline: none;
+                border-color: #0056b3;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .resend-message {
+            margin-top: 20px;
+            text-align: center;
+            color: #000000;
+        }
+        #countdown {
+            display: block; /* Initially show the countdown */
+        }
+
+        #resendBtn {
+            display: none; /* Initially hide the Resend OTP button */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="otp-container">
+        <!-- Header -->
+        <form asp-action="VerifyOTP" asp-controller="otp" method="post">
+            <div class="verification-header text-warning">Verification</div>
+
+            <!-- Error Message -->
+            @if (!string.IsNullOrEmpty(ViewBag.errormessage))
+            {
+                <div class="error-message">
+                    @ViewBag.errormessage
+                </div>
+            }
+            <!-- Single OTP Input Box -->
+            <div class="input-field d-flex justify-content-center">
+                <input type="text" class="form-control otp-input" name="otp1" maxlength="1" pattern="\d{1}" required>
+                <input type="text" class="form-control otp-input" name="otp2" maxlength="1" pattern="\d{1}" required>
+                <input type="text" class="form-control otp-input" name="otp3" maxlength="1" pattern="\d{1}" required>
+                <input type="text" class="form-control otp-input" name="otp4" maxlength="1" pattern="\d{1}" required>
+            </div>
+            <!-- Hidden Field for User ID -->
+            <input type="hidden" name="email" id="email" value="@TempData["UserEmail"]">
+            <div class="">
+            @ViewBag.errormassage
+            </div>
+            <br />
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-outline-warning mt-4">Submit</button>
+            <!-- Inside your HTML body, add a button for Resend OTP -->
+            <!-- Countdown Timer -->
+            <div id="countdown">
+                <p>Time remaining: <span id="timer">60</span></p>
+            </div>
+        </form>
+        <form asp-action="ResendOtp" asp-controller="Otp" method="post">
+                <input type="hidden" name="email" value="@TempData["UserEmail"]">
+           <button id="resendBtn" class="btn btn-link" type="submit">Resend OTP</button>
+         </form>
+    </div>
+    <!-- At the end of your HTML body, add the following JavaScript code -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        var countdownTimeInSeconds = 60;
+
+        function updateCountdown() {
+            var minutes = Math.floor(countdownTimeInSeconds / 60);
+            var seconds = countdownTimeInSeconds % 60;
+
+            var formattedTime = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            document.getElementById("timer").innerText = formattedTime;
+
+            countdownTimeInSeconds--;
+
+            // Check if the countdown is finished
+            if (countdownTimeInSeconds < 0) {
+                // Display Resend OTP button
+                $('#resendBtn').show();
+                // Hide countdown timer
+                $('#countdown').hide();
+            } else {
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+
+        function resendOTP() {
+            // Implement your resend OTP logic here
+            // For demonstration purposes, let's assume a successful resend
+            alert("Resending OTP...");
+
+            // Reset countdown and hide Resend OTP button
+            countdownTimeInSeconds = 60;
+            $('#resendBtn').hide();
+            // Show countdown timer
+            $('#countdown').show();
+            updateCountdown();
+        }
+
+        $(document).ready(function () {
+            updateCountdown();
+        });
+    </script>
+</body>
+</html>
