@@ -1,139 +1,370 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutDsh.cshtml";
 }
-@model Products
+@model e_commerce_pro.Models.Products
 
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Edit Product</h2>
-        </div>
-    </div>
-    <form asp-controller="Product" asp-action="EditProdect" method="post" enctype="multipart/form-data">
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Name">Name</label>
-                <input asp-for="Name" class="form-control" placeholder="">
-            </div>
-            <div class="form-group col-md-6">
-                <label asp-for="Description">Description</label>
-                <textarea asp-for="Description" class="form-control" placeholder="Description" rows="4" required></textarea>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Price">Price</label>
-                <input asp-for="Price" type="number" class="form-control" placeholder="">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Stock">Quantity</label>
-                <input asp-for="Stock" type="number" class="form-control">
-            </div>
-            <div class="form-group col-md-6">
-                <label asp-for="CategaryId">Category</label>
-                <select asp-for="CategaryId" asp-items="@ViewBag.CategoryList" class="form-control">
-                    <option selected>Choose...</option>
-                </select>
-            </div>
+@*
+<head>
+    <link href="~/dist/cropper.css" rel="stylesheet">
+    <script src="~/dist/cropper.js"></script>
+</head>
 
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-12">
-                <label asp-for="imagUrl">Images</label>
-                <div class="card-body">
-                    <div class="input-upload">
-                        @foreach (var imageUrl in Model.imagUrl)
-                        {
-                            <img src="@imageUrl" alt="Product Image" class="img-thumbnail image-spacing" />
-                        }
+
+    <section id="productVarientForm" class="content-main">
+        <div class="row">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Add Product </h2>
+                </div>
+            </div>
+            <div id="target" class="col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between ">
+                        <h4>Basic</h4>
+                           <button type="button" id="addForm" class="btn btn-md rounded font-sm hover-up">+</button>
                     </div>
+                    <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label asp-for="Name" class="form-label">Product Name (It should match with the Product submited)</label>
+                                    <input type="text" asp-for="Name" placeholder="Type here" class="form-control" id="productname" name="productname" required />
+
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Color</label>
+                                    <select id="color" class="form-select" name="color">
+                                        {{#each color}}
+                                        <option>{{this.color}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <label class="form-label">Size</label>
+                                    <select id="size" class="form-select" name="size">
+                                        {{#each size}}
+                                        <option>{{this.size}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="Description" class="form-label"> Price</label>
+                                    <input type="Price" asp-for="Price" placeholder="Type here" class="form-control" id="price" name="Price" required />
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="Description" class="form-label">Description</label>
+                                    <input type="number" asp-for="Description" placeholder="Type here" class="form-control" id="Description" name="Description" required />
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="stock" class="form-label">Stock</label>
+                                    <input type="number" asp-for="stock" placeholder="Type here" class="form-control" id="stock" name="stock" required />
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="Size" class="form-label">Size</label>
+                                    <input type="number" asp-for="Size" placeholder="Type here" class="form-control" id="stock" required />
+                                </div>
+                                <div class="col-sm-4 mb-3">
+                                    <label asp-for="rating" class="form-label">Rating</label>
+                                    <input type="number" asp-for="rating" placeholder="Type here" class="form-control" id="stock" required />
+                                </div>
+                            </div>
+                            @* {{!-- Upload image with preview --}}
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Media</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="card-body col-sm-3">
+                                        <div class="input-upload">
+                                            <img id="image-preview" src="~/assets/imgs/theme/upload.svg" alt="" />
+                                            <input data-id="1" class="form-control" name="images" type="file" id="image-input-1" accept="image/*" onchange="previewImage(event)" required />
+                                        </div>
+                                    </div>
+                                    <div class="card-body col-sm-3">
+                                        <div class="input-upload">
+                                            <img id="image-preview2" src="~/assets/imgs/theme/upload.svg" alt="" />
+                                            <input data-id="2" class="form-control" name="images" type="file" id="image-input-2" accept="image/*" onchange="previewImage(event)" required />
+                                        </div>
+                                    </div>
+                                    <div class="card-body col-sm-3">
+                                        <div class="input-upload">
+                                            <img id="image-preview3" src="~/assets/imgs/theme/upload.svg" alt="" />
+                                            <input data-id="3" class="form-control" name="images" type="file" id="image-input-3" accept="image/*" onchange="previewImage(event)" required />
+                                        </div>
+                                    </div>
+                                    <div class="card-body col-sm-3">
+                                        <div class="input-upload">
+                                            <img id="image-preview4" src="~/assets/imgs/theme/upload.svg" alt="" />
+                                            <input data-id="4" class="form-control" name="images" type="file" id="image-input-4" accept="image/*" onchange="previewImage(event)" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" id="productVarientButton" class="btn btn-md rounded font-sm hover-up">Add product-Varient</button>
+                            </div>
+                            <h3 id="varientAlert" class="text-center text-success"></h3>
+                        </div>
+                    </form>
+                </div>
+                <!-- card end// -->
+            </div>
+        </div>
+    </section>
+
+
+    <div class="modal fade" id="imageModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="imagecrop1 width-100">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="cropButton1" class="btn btn-primary">Crop</button>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="modal fade" id="imageModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid ">
+                        <div class="imagecrop2">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="cropButton2" class="btn btn-primary">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <input type="file" name="img1" class="form-control" accept="image/*">
-                <input type="file" name="img2" class="form-control" accept="image/*">
-                <input type="file" name="img3" class="form-control" accept="image/*">
-                <input type="file" name="img4" class="form-control" accept="image/*">
-          
-    
-        
+    <div class="modal fade" id="imageModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="imagecrop3 width-100">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="cropButton3" class="btn btn-primary">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Update Product</button>
-    </form>
+    <div class="modal fade" id="imageModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="imagecrop4 width-100">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="cropButton4" class="btn btn-primary">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="~/Adassets/js/img.js"></script>
+*@
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">Add New Product</h2>
+
+            </div>
+        </div>
+        <div class="col-11">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Basic</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditProdect" asp-controller="Product" method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label">Product title</label>
+                            <input type="text" asp-for="Name" placeholder="Type here" class="form-control" id="name" />
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">Full description</label>
+                            <textarea asp-for="Description" placeholder="Type here" class="form-control" rows="4"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <label asp-for="CategaryId" class="form-label">Category</label>
+                                    <select asp-for="CategaryId" class="form-select" asp-items="@ViewBag.CategoryList">
+                                        <option value="">Select Category</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <label class="form-label">Price</label>
+                                    <input asp-for="Price" placeholder="Type here" type="number" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="form-label">Stock</label>
+                                <input asp-for="Stock" placeholder="Type here" type="text" class="form-control" />
+                            </div>
+                            @*   <div class="col-lg-6">
+                            <div class="mb-4">
+                            <label class="form-label"> Color</label>
+                            <div class="row gx-2">
+                            <input asp-for="color" placeholder="" type="text" class="form-control" />
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-lg-6">
+                            <div class="mb-4">
+                            <label class="form-label"> Size</label>
+                            <div class="row gx-2">
+                            <input asp-for="Size" placeholder="" type="text" class="form-control" />
+                            </div>
+                            </div>
+                            </div> *@
+
+                        </div>
+                        <!-- Include Cropper.js -->
+                        <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+                        <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+
+                        <!-- Your existing HTML code -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4>Media</h4>
+                            </div>
+                            <div class="row">
+                                <div class="card-body col-sm-3">
+                                    <div class="input-upload">
+                                        <img id="image-preview-1" src="~/Adassets/imgs/upl/upload1.png" alt="" />
+                                        <input class="form-control" type="file" name="img1" />
+                                    </div>
+                                </div>
+                                <div class="card-body col-sm-3">
+                                    <div class="input-upload">
+                                        <img id="image-preview-2" src="~/Adassets/imgs/upl/upload1.png" alt="" />
+                                        <input data-id="2" class="form-control" name="img2" type="file" />
+                                    </div>
+                                </div>
+                                <div class="card-body col-sm-3">
+                                    <div class="input-upload">
+                                        <img id="image-preview-3" src="~/Adassets/imgs/upl/upload1.png" alt="" />
+                                        <input data-id="3" class="form-control" name="img3" type="file"  />
+                                    </div>
+                                </div>
+                                <div class="card-body col-sm-3">
+                                    <div class="input-upload">
+                                        <img id="image-preview-4" src="~/Adassets/imgs/upl/upload1.png" alt="" />
+                                        <input data-id="4" class="form-control" name="img4" type="file"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" id="productVarientButton" class="btn btn-md rounded font-sm hover-up">Add product-Variant</button>
+                        </div>
+
+                        <!-- Add the following JavaScript code to enable image cropping -->
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                // Initialize Cropper for each image preview
+                                for (let i = 1; i <= 4; i++) {
+                                    const imagePreview = document.getElementById(`image-preview-${i}`);
+                                    const fileInput = document.querySelector(`[name="img${i}"]`);
+                                    let cropper;
+
+                                    fileInput.addEventListener('change', function (e) {
+                                        const file = e.target.files[0];
+                                        const reader = new FileReader();
+
+                                        reader.onload = function (event) {
+                                            imagePreview.src = event.target.result;
+
+                                            // Destroy previous cropper instance (if exists)
+                                            if (cropper) {
+                                                cropper.destroy();
+                                            }
+
+                                            // Initialize new Cropper instance
+                                            cropper = new Cropper(imagePreview, {
+                                                aspectRatio: 1, // Set the aspect ratio as needed
+                                                viewMode: 2, // Set the view mode as needed
+                                            });
+                                        };
+
+                                        reader.readAsDataURL(file);
+                                    });
+                                }
+
+                                document.getElementById('productVarientButton').addEventListener('click', function () {
+                                    // Handle the cropped images, e.g., send data to the server
+                                    for (let i = 1; i <= 4; i++) {
+                                        const imagePreview = document.getElementById(`image-preview-${i}`);
+                                        const fileInput = document.querySelector(`[name="img${i}"]`);
+
+                                        // Check if a file is selected
+                                        if (fileInput.files.length > 0) {
+                                            const file = fileInput.files[0];
+
+                                            // Perform your processing here
+                                            console.log(`Image ${i}:`, file);
+                                        }
+                                    }
+                                });
+                            });
+                            </script>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12">
+        </div>
+
+    </div>
 </section>
-
- <style>
-    form {
-        max-width: 800px;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-group {
-        margin-bottom: 16px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-    }
-
-    input,
-    textarea,
-    select {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
-
-    /* Add border and underline styles */
-    input,
-    textarea,
-    select {
-        border: 1px solid #ddd;
-    }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #4caf50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-        }
-
-    /* Add some spacing between form rows */
-    .form-row {
-        margin-bottom: 20px;
-    }
-
-    /* Add an underline effect */
-    input[type="text"] {
-        border-bottom: 2px solid #ddd;
-    }
-
-    /* Adjust spacing and underline for the ZIP input */
-    .form-group.col-md-2 input[type="text"] {
-        border-bottom: 1px solid #ddd;
-    }
-
-    .image-spacing {
-        margin-right: 10px; /* Adjust the value to control the spacing */
-    }
-
-    .image-spacing {
-        padding: 5px; /* Adjust the value to control the spacing */
-    }
-
-
-     
-  </style>
-

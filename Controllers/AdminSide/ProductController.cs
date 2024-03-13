@@ -93,22 +93,26 @@ namespace e_commerce_pro.Controllers.AdminSide
 
             return null; // or throw an exception, depending on your requirements
         }
-        public IActionResult EditProdect(int ?id)
-        
+        public IActionResult EditProdect(int? id)
         {
+            if (id == null)
+            {
+                return NotFound(); // Handle null ID appropriately, e.g., show an error view
+            }
+
             // Retrieve the product from the database based on the productId
             Products? product = _db.products.Find(id);
 
             // Check if the product is found
             if (product == null)
             {
-                return NotFound(); // or handle accordingly, e.g., show an error view
+                return NotFound(); // Handle product not found, e.g., show an error view
             }
 
             List<CategorieS> categoryList = _db.categories.ToList(); // Replace 'Category' with the actual name of your category model
 
             // You can use ViewBag or ViewData to pass the category list to the view
-            ViewBag.CategoryList = new SelectList(categoryList , "Id" , "name");
+            ViewBag.CategoryList = new SelectList(categoryList, "Id", "name");
 
             return View(product);
         }

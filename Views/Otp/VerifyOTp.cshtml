@@ -77,7 +77,7 @@
     <div class="otp-container">
         <!-- Header -->
         <form asp-action="VerifyOTP" asp-controller="otp" method="post">
-            <div class="verification-header text-warning">Verification</div>
+            <div class="verification-header text-warning"> OTP Verification</div>
 
             <!-- Error Message -->
             @if (!string.IsNullOrEmpty(ViewBag.errormessage))
@@ -104,12 +104,12 @@
             <!-- Inside your HTML body, add a button for Resend OTP -->
             <!-- Countdown Timer -->
             <div id="countdown">
-                <p>Time remaining: <span id="timer">60</span></p>
+                <p><span id="timer">60</span></p>
             </div>
         </form>
         <form asp-action="ResendOtp" asp-controller="Otp" method="post">
                 <input type="hidden" name="email" value="@TempData["UserEmail"]">
-           <button id="resendBtn" class="btn btn-link" type="submit">Resend OTP</button>
+           <button id="resendBtn" class="btn btn-link align-center" type="submit">Resend OTP</button>
          </form>
     </div>
     <!-- At the end of your HTML body, add the following JavaScript code -->

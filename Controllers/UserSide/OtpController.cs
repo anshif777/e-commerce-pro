@@ -39,7 +39,7 @@ namespace e_commerce_pro.Controllers
                 _db.SaveChanges();
 
                 TempData["success"] = "OTP verification is successful";
-                return RedirectToAction("MainHome", "Home");
+                return RedirectToAction("/Singup");
             }
             else
             {

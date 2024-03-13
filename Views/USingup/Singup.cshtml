@@ -20,7 +20,7 @@
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            margin-top: 25px;
+            margin-top: 100px;
 
         }
         .signup-heading {
@@ -50,6 +50,7 @@
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input asp-for="Name" class="form-control" name="name" placeholder="Enter your name" autocomplete="name" required>
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <!-- Email Input -->
@@ -64,6 +65,7 @@
                     <div class="form-group">
                         <label for="phone">Phone</label>
                         <input asp-for="PhoneNumber" type="number" class="form-control"  placeholder="Enter your phone number" autocomplete="mobile" >
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
 
                     <!-- Password Input -->
