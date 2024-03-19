@@ -17,6 +17,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

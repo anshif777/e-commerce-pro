@@ -5,20 +5,21 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Categor Edit</h2>
+            <h2 class="content-title card-title">Add New Category</h2>
         </div>
     </div>
-    <form asp-controller="Category" asp-action="Edit" method="post" id="categoryForm">
+    <form asp-controller="Category" asp-action="AddCatogary" method="post" id="categoryForm">
         <div class="modal-body">
             <div class="row gy-3 overflow-hidden">
-                
                 <div class="col-12">
-                    @if (@ViewBag.categoriy != null)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ViewBag.categoriy
-                        </div>
-                    }
+                    <div>
+                        @if (@ViewBag.categoriy!= null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewBag.categoriy
+                            </div>
+                        }
+                    </div>
                     <div class="form-floating mb-3">
                         <input asp-for="name" name="name" class="form-control" placeholder="Name" required>
                         <label for="name" class="form-label">Name</label>

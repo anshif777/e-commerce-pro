@@ -111,7 +111,7 @@
             <!-- Inside your HTML body, add a button for Resend OTP -->
             <!-- Countdown Timer -->
             <div id="countdown">
-                <p><span id="timer">60</span></p>
+                <p><span id="timerr">60</span></p>
             </div>
         </form>
         <form asp-action="ResendOtp" asp-controller="Otp" method="post">
@@ -122,7 +122,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         try {
-            let timerInterval; // Define the timer interval globally
+            let timerId; // Define the timer ID globally
 
             // Function to update the timer
             function updateTimer() {
@@ -145,16 +145,13 @@
                     document.getElementById("resendBtn").style.display = "none";
                 } else {
                     // Show the Resend OTP button if the timer has expired
-                    clearInterval(timerInterval);
                     document.getElementById("resendBtn").style.display = "block";
+                    return; // Exit the function when the timer expires
                 }
+
+                // Schedule the next update
+                timerId = setTimeout(updateTimer, 1000);
             }
-
-            // Call updateTimer function every second
-            timerInterval = setInterval(updateTimer, 1000);
-
-            // Run updateTimer once on page load to start the timer
-            updateTimer();
 
             // Function to handle Resend OTP button click
             function resendOtp() {
@@ -163,10 +160,12 @@
                 // Hide the Resend OTP button
                 document.getElementById("resendBtn").style.display = "none";
                 // Restart the timer
-                timerInterval = setInterval(updateTimer, 1000);
-                // Update the timer display
+                clearTimeout(timerId); // Clear any existing timer
                 updateTimer();
             }
+
+            // Call updateTimer once on page load to start the timer
+            updateTimer();
 
             // Your existing code for OTP input and form submission
             $(".otp-input").keyup(function () {
@@ -185,7 +184,6 @@
             console.error('An error occurred:', error);
         }
     </script>
-
 
 </body>
 </html>

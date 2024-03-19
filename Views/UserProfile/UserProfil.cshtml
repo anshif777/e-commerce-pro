@@ -1,7 +1,8 @@
 ﻿@{
-    Layout = "~/Views/Shared/_LayoutDsh.cshtml";
+    Layout = "~/Views/Shared/_Layout_pro.cshtml";
 }
-@model CategorieS
+@model UserSingup
+
 <section class="content-main">
     <div class="content-header">
         <div>
@@ -11,22 +12,16 @@
     <form asp-controller="Category" asp-action="Edit" method="post" id="categoryForm">
         <div class="modal-body">
             <div class="row gy-3 overflow-hidden">
-                
+
                 <div class="col-12">
-                    @if (@ViewBag.categoriy != null)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ViewBag.categoriy
-                        </div>
-                    }
                     <div class="form-floating mb-3">
-                        <input asp-for="name" name="name" class="form-control" placeholder="Name" required>
+                        <input asp-for="Name" name="name" class="form-control" placeholder="Name" required>
                         <label for="name" class="form-label">Name</label>
                     </div>
                 </div>
                 <div class="col-12">
                     <div class="form-floating mb-3">
-                        <textarea asp-for="Description" class="form-control" placeholder="Description" rows="6" required></textarea>
+                        <textarea asp-for="Email" class="form-control" placeholder="Description" rows="6" required></textarea>
                         <label for="Description" class="form-label">Description</label>
                     </div>
                 </div>

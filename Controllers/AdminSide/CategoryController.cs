@@ -21,6 +21,11 @@ namespace e_commerce_pro.Controllers.AdminSide
             return View(Objcatagory);
         }
         //Add New Category
+        [HttpGet]
+        public IActionResult AddCatogary()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult AddCatogary(CategorieS Cg)
         {
@@ -33,8 +38,14 @@ namespace e_commerce_pro.Controllers.AdminSide
                     _db.SaveChanges();
                     return RedirectToAction("CategoryList");
                 }
+                else
+                {
+                    ViewBag.categoriy = "This Category is already taken ";
+                    return View();
+                }
             }
             return View();
+
         }
         //Edit Category(Get)
         [HttpGet]
@@ -60,9 +71,19 @@ namespace e_commerce_pro.Controllers.AdminSide
 
             if (ModelState.IsValid)
             {
-                _db.categories.Update(Cg);
-                _db.SaveChanges();
-                return RedirectToAction("Categories");
+                var user = _db.categories.Where(c=>c.name==c.name).FirstOrDefault();
+                if (user == null)
+                {
+                    _db.categories.Update(Cg);
+                    _db.SaveChanges();
+                    return RedirectToAction("Categories");
+                }
+                else
+                {
+                    ViewBag.categoriy = "This Category is already taken ";
+                    return View();
+                }
+             
             }
             return View();
         }

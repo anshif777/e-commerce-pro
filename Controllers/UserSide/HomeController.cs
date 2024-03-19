@@ -33,6 +33,19 @@ namespace e_commerce_pro.Controllers
 
             return View(check);
         }
+        public IActionResult LogOut()
+        {
+            if (HttpContext.Session.GetString("session") != null)
+            {
+                // Remove the session variable that represents authentication
+                HttpContext.Session.Remove("session");
+
+                // Redirect to the main home page after successful logout
+                return RedirectToAction("MainHome", "Home");
+            }
+            // If session variable is already null, just return to a view
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

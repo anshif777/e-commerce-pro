@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="~/assets/css/style.css">
     <link rel="stylesheet" href="~/assets/css/skins/skin-demo-7.css">
     <link rel="stylesheet" href="~/assets/css/demos/demo-7.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -476,13 +478,31 @@
                             </form>
                         </div><!-- End .header-search -->
 
+
+
+                            <div class="dropdown cart-dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount" style="right: 0;">
+                                <li><a class="dropdown-item" href="@Url.Action("UserProfilDash", "UserProfile")"><i class="material-icons md-perm_identity"></i> Profile</a></li>
+                                 @*    <li><a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a></li>
+                                     <li><a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a></li> 
+                                    <li><hr class="dropdown-divider"></li> *@
+                                    <li><a class="dropdown-item text-danger" href="/Home/LogOut"><i class="material-icons md-exit_to_app"></i>Logout</a></li>
+                                </ul>
+                            </div>
+
+
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
                             </a>
+                            <div />
 
-                            <div class="dropdown-menu dropdown-menu-right">
+                           @*  <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
                                     <div class="product">
                                         <div class="product-cart-details">
@@ -535,9 +555,10 @@
                                     <a href="cart.html" class="btn btn-primary">View Cart</a>
                                     <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
-                            </div><!-- End .dropdown-menu -->
+                              
+                            </div><!-- End .dropdown-menu --> *@
                         </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
+                     
                 </div><!-- End .container-fluid -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
