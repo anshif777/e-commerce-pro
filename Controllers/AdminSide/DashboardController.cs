@@ -39,5 +39,38 @@ namespace e_commerce_pro.Controllers
 
             return View(Objuserlist);
         }
+        // Action to block a user
+        [HttpPost]
+        public IActionResult BlockUser(int? id)
+        {
+            var user = _db.Usersingup.Find(id);
+
+            if (user != null)
+            {
+                user.IsBlock = true;
+                _db.SaveChanges();
+                return RedirectToAction("UserList", "Dashboard");
+                // Redirect to user management page
+            }
+
+            // Handle the case where the user is not found
+            return NotFound();
+        }
+        // Action to unblock a user
+        [HttpPost]
+        public IActionResult UnblockUser(int? id)
+        {
+            var user = _db.Usersingup.Find(id);
+
+            if (user != null)
+            {
+                user.IsBlock = false;
+                _db.SaveChanges();
+                return RedirectToAction("UserList", "Dashboard");
+
+            }
+            // Handle the case where the user is not found
+            return NotFound();
+        }
     }
 }

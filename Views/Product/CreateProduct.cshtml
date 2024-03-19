@@ -310,46 +310,53 @@
 
                         <!-- Add the following JavaScript code to enable image cropping -->
                         <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                // Initialize Cropper for each image preview
-                                for (let i = 1; i <= 4; i++) {
-                                    const imagePreview = document.getElementById(image-preview-${i});
-                                    const fileInput = document.querySelector([name="image${i}"]);
-                                    let cropper;
-
-                                    fileInput.addEventListener('change', function (e) {
-                                        const file = e.target.files[0];
-                                        const reader = new FileReader();
-
-                                        reader.onload = function (event) {
-                                            imagePreview.src = event.target.result;
-
-                                            // Destroy previous cropper instance (if exists)
-                                            if (cropper) {
-                                                cropper.destroy();
-                                            }
-
-                                            // Initialize new Cropper instance
-                                            cropper = new Cropper(imagePreview, {
-                                                aspectRatio: 1, // Set the aspect ratio as needed
-                                                viewMode: 2, // Set the view mode as needed
-                                            });
-                                        };
-
-                                        reader.readAsDataURL(file);
-                                    });
-                                }
-
-                                document.getElementById('productVarientButton').addEventListener('click', function () {
-                                    // Handle the cropped images, e.g., send data to the server
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    // Initialize Cropper for each image preview
                                     for (let i = 1; i <= 4; i++) {
-                                        const cropperInstance = cropperInstances[i];
-                                        const croppedCanvas = cropperInstance.getCroppedCanvas();
+                                        const imagePreview = document.getElementById(`image-preview-${i}`);
+                                        const fileInput = document.querySelector(`[name="img${i}"]`);
+                                        let cropper;
 
-                                        // You can now send the croppedCanvas data to the server using AJAX or any other method.
+                                        fileInput.addEventListener('change', function (e) {
+                                            const file = e.target.files[0];
+                                            const reader = new FileReader();
+
+                                            reader.onload = function (event) {
+                                                imagePreview.src = event.target.result;
+
+                                                // Destroy previous cropper instance (if exists)
+                                                if (cropper) {
+                                                    cropper.destroy();
+                                                }
+
+                                                // Initialize new Cropper instance
+                                                cropper = new Cropper(imagePreview, {
+                                                    aspectRatio: 1, // Set the aspect ratio as needed
+                                                    viewMode: 2, // Set the view mode as needed
+                                                });
+                                            };
+
+                                            reader.readAsDataURL(file);
+                                        });
                                     }
+
+                                    document.getElementById('productVarientButton').addEventListener('click', function () {
+                                        // Handle the cropped images, e.g., send data to the server
+                                        for (let i = 1; i <= 4; i++) {
+                                            const imagePreview = document.getElementById(`image-preview-${i}`);
+                                            const fileInput = document.querySelector(`[name="img${i}"]`);
+
+                                            // Check if a file is selected
+                                            if (fileInput.files.length > 0) {
+                                                const file = fileInput.files[0];
+
+                                                // Perform your processing here
+                                                console.log(`Image ${i}:`, file);
+                                            }
+                                        }
+                                    });
                                 });
-                            });
                         </script>
                     </form>
                 </div>

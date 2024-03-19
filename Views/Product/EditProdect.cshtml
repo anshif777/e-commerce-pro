@@ -211,7 +211,7 @@
     <div class="row">
         <div class="col-9">
             <div class="content-header">
-                <h2 class="content-title">Add New Product</h2>
+                <h2 class="content-title">Edit Product</h2>
 
             </div>
         </div>
@@ -250,22 +250,7 @@
                                 <label class="form-label">Stock</label>
                                 <input asp-for="Stock" placeholder="Type here" type="text" class="form-control" />
                             </div>
-                            @*   <div class="col-lg-6">
-                            <div class="mb-4">
-                            <label class="form-label"> Color</label>
-                            <div class="row gx-2">
-                            <input asp-for="color" placeholder="" type="text" class="form-control" />
-                            </div>
-                            </div>
-                            </div>
-                            <div class="col-lg-6">
-                            <div class="mb-4">
-                            <label class="form-label"> Size</label>
-                            <div class="row gx-2">
-                            <input asp-for="Size" placeholder="" type="text" class="form-control" />
-                            </div>
-                            </div>
-                            </div> *@
+                          
 
                         </div>
                         <!-- Include Cropper.js -->
@@ -276,6 +261,14 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h4>Media</h4>
+                            </div>
+                            <div class="row">
+                                <div class="card-body">
+                                    <div class="input-upload">
+                                        @foreach (var imageUrl in Model.imagUrl)
+                                        {
+                                            <img src="@imageUrl" alt="Product Image" class="img-thumbnail image-spacing" />
+                                        }
                             </div>
                             <div class="row">
                                 <div class="card-body col-sm-3">

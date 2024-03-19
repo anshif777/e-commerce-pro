@@ -28,12 +28,12 @@ namespace e_commerce_pro.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Check if email already exists
+                //Check if email already exists
                 //var existingEmail = _db.Usersingup.FirstOrDefault(u => u.Email == sg.Email);
 
                 //if (existingEmail != null)
                 //{
-                //    ViewBag.email = "Email is already taken";
+                //    ViewBag.email = "This Email is already taken";
                 //    return View("Singup", sg);
                 //}
 
@@ -68,6 +68,9 @@ namespace e_commerce_pro.Controllers
                     ModelState.AddModelError("ee", "Error sending email. Please try again later.");
                     return View("Singup", sg);
                 }
+
+                HttpContext.Session.SetString("JustSignedUp", "true");
+
                 _db.Usersingup.Add(sg);
                 _db.SaveChanges();
                 // Redirect to OTP verification page
@@ -103,41 +106,11 @@ namespace e_commerce_pro.Controllers
                 HttpContext.Session.SetString("session" , user.Email);
                 return RedirectToAction("MainHome", "Home");
             }
-            ViewData["LoginMessage"] = "Email or passward invalid";
+            ViewData["LoginMessage"] = "User not found";
+
             return View();
         }
-        [HttpPost]
-        public IActionResult BlockUser(int ? id)
-        {
-            var user = _db.Usersingup.Find(id);
-
-            if (user != null)
-            {
-                user.IsBlock = true;
-                _db.SaveChanges();                
-                return RedirectToAction("UserList","Dashboard");
-                // Redirect to user management page
-            }
-
-            // Handle the case where the user is not found
-            return NotFound();
-        }
-        // Action to unblock a user
-        [HttpPost]
-        public  IActionResult UnblockUser(int ? id)
-        {
-            var user = _db.Usersingup.Find(id);
-
-            if (user != null)
-            {
-                user.IsBlock = false; 
-                _db.SaveChanges();
-                return RedirectToAction("UserList", "Dashboard");
-
-            }
-            // Handle the case where the user is not found
-            return NotFound();
-        }
+       
     }
 }
     

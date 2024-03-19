@@ -11,7 +11,7 @@
     <title>OTP Verification</title>
     <style>
         body {
-            background: url('./users/assets/images/backgrounds/8-otp.jpg');
+            background: url('/assets/images/back.jpg');
             background-repeat: no-repeat;
             background-size: cover;
             height: 100vh;
@@ -22,23 +22,29 @@
         }
 
         .otp-container {
-            background-color: #ffffff;
+            background-color: white;
             padding: 40px;
+            width: 30rem;
+            height: 25rem;
+            margin: 0 auto;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+
         }
 
         .verification-header {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 20px; /* Reduced margin-bottom */
+            margin-top: 30px;
         }
 
         .otp-input {
             width: 50px;
             height: 50px;
-            font-size: 18px;
+            font-size: 23px;
+            margin-top: 10px;
             margin: 0 5px;
             text-align: center;
             border: 1px solid #007bff;
@@ -77,15 +83,16 @@
     <div class="otp-container">
         <!-- Header -->
         <form asp-action="VerifyOTP" asp-controller="otp" method="post">
-            <div class="verification-header text-warning"> OTP Verification</div>
-
             <!-- Error Message -->
             @if (!string.IsNullOrEmpty(ViewBag.errormessage))
             {
-                <div class="error-message">
+                <div class="alert alert-danger">
                     @ViewBag.errormessage
                 </div>
             }
+            <div class="verification-header text-warning"> OTP Verification</div>
+
+           
             <!-- Single OTP Input Box -->
             <div class="input-field d-flex justify-content-center">
                 <input type="text" class="form-control otp-input" name="otp1" maxlength="1" pattern="\d{1}" required>
@@ -109,50 +116,76 @@
         </form>
         <form asp-action="ResendOtp" asp-controller="Otp" method="post">
                 <input type="hidden" name="email" value="@TempData["UserEmail"]">
-           <button id="resendBtn" class="btn btn-link align-center" type="submit">Resend OTP</button>
+            <button id="resendBtn" class="btn btn-link align-center" onclick="resendOtp()">Resend OTP</button>
          </form>
     </div>
-    <!-- At the end of your HTML body, add the following JavaScript code -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        var countdownTimeInSeconds = 60;
+        try {
+            let timerInterval; // Define the timer interval globally
 
-        function updateCountdown() {
-            var minutes = Math.floor(countdownTimeInSeconds / 60);
-            var seconds = countdownTimeInSeconds % 60;
+            // Function to update the timer
+            function updateTimer() {
+                const timerElement = document.getElementById("timer");
+                let timeLeft = localStorage.getItem("otpTimer");
+                if (!timeLeft) {
+                    // Set the initial timer value to 60 seconds if not set in local storage
+                    timeLeft = 60;
+                    localStorage.setItem("otpTimer", timeLeft);
+                } else {
+                    timeLeft = parseInt(timeLeft);
+                }
 
-            var formattedTime = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-            document.getElementById("timer").innerText = formattedTime;
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    localStorage.setItem("otpTimer", timeLeft);
+                    timerElement.innerText = timeLeft;
 
-            countdownTimeInSeconds--;
-
-            // Check if the countdown is finished
-            if (countdownTimeInSeconds < 0) {
-                // Display Resend OTP button
-                $('#resendBtn').show();
-                // Hide countdown timer
-                $('#countdown').hide();
-            } else {
-                setTimeout(updateCountdown, 1000);
+                    // Hide the Resend OTP button if the timer is running
+                    document.getElementById("resendBtn").style.display = "none";
+                } else {
+                    // Show the Resend OTP button if the timer has expired
+                    clearInterval(timerInterval);
+                    document.getElementById("resendBtn").style.display = "block";
+                }
             }
+
+            // Call updateTimer function every second
+            timerInterval = setInterval(updateTimer, 1000);
+
+            // Run updateTimer once on page load to start the timer
+            updateTimer();
+
+            // Function to handle Resend OTP button click
+            function resendOtp() {
+                // Reset the timer
+                localStorage.setItem("otpTimer", 60);
+                // Hide the Resend OTP button
+                document.getElementById("resendBtn").style.display = "none";
+                // Restart the timer
+                timerInterval = setInterval(updateTimer, 1000);
+                // Update the timer display
+                updateTimer();
+            }
+
+            // Your existing code for OTP input and form submission
+            $(".otp-input").keyup(function () {
+                if (this.value.length == this.maxLength) {
+                    $(this).next('.otp-input').focus();
+                }
+                // Do not restart the countdown here
+            });
+
+            $(".otp-input").keydown(function (e) {
+                if (e.which == 8 && $(this).val() == '') { // 8 is the key code for backspace
+                    $(this).prev('.otp-input').focus();
+                }
+            });
+        } catch (error) {
+            console.error('An error occurred:', error);
         }
-
-        function resendOTP() {
-            // Implement your resend OTP logic here
-            // For demonstration purposes, let's assume a successful resend
-            alert("Resending OTP...");
-
-            // Reset countdown and hide Resend OTP button
-            countdownTimeInSeconds = 60;
-            $('#resendBtn').hide();
-            // Show countdown timer
-            $('#countdown').show();
-            updateCountdown();
-        }
-
-        $(document).ready(function () {
-            updateCountdown();
-        });
     </script>
+
+
 </body>
 </html>

@@ -57,6 +57,17 @@
                 <form class="signin-form  "action="/signIn" method="post">
                     <h2 class="signin-heading">Sign In</h2>
 
+                    @if (!string.IsNullOrEmpty(ViewData["LoginMessage"]?.ToString()))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewData["LoginMessage"]
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(ViewData["BlockedMessage"]?.ToString())){
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData["BlockedMessage"]
+                    </div>
+                    }
                     <!-- Email Input -->
                     <div class="form-group">
                         <label for="email">Email</label>

@@ -17,46 +17,48 @@ namespace e_commerce_pro.Controllers
         [Route("/otp")]
         public IActionResult VerifyOTp(string email)
         {
-            TempData["UserEmail"] = email; // Pass the email to the view
-            return View();
-
+            if (HttpContext.Session.GetString("JustSignedUp") == "true")
+            {
+                TempData["UserEmail"] = email; // Pass the email to the view
+                return View();
+            }
+            return RedirectToAction("Singup", "USingup");
         }
         [Route("/otp")]
         // Otp verification 
         [HttpPost]
         public IActionResult VerifyOTp(string email, string otp1, string otp2, string otp3, string otp4)
         {
-            string otp = otp1 + otp2 + otp3 + otp4;
+                string otp = otp1 + otp2 + otp3 + otp4;
 
-            var currentUtcTime = DateTime.UtcNow;
+                var currentUtcTime = DateTime.UtcNow;
 
-            var OTP = _db.OTPinfo.FirstOrDefault(x => x.Email == email && x.OTp == otp && x.expertime > currentUtcTime);
+                var OTP = _db.OTPinfo.FirstOrDefault(x => x.Email == email && x.OTp == otp && x.expertime > currentUtcTime);
 
-            if (OTP != null)
-            {
-                // OTP is valid, remove it from the database
-                _db.OTPinfo.Remove(OTP);
-                _db.SaveChanges();
-
-                TempData["success"] = "OTP verification is successful";
-                return RedirectToAction("/Singup");
-            }
-            else
-            {
-                // OTP is not valid or has expired
-                if (_db.OTPinfo.Any(x => x.Email == email && x.OTp == otp && x.expertime <= currentUtcTime))
+                if (OTP != null)
                 {
-                    ViewBag.expiredmessage = "The entered OTP has expired. Please request a new OTP.";
+                    // OTP is valid, remove it from the database
+                    _db.OTPinfo.Remove(OTP);
+                    _db.SaveChanges();
+
+                    TempData["success"] = "OTP verification is successful";
+                    return RedirectToAction("Login", "USingup");
                 }
                 else
                 {
-                    ViewBag.errormessage = "Invalid OTP. Please try again ";
+                    // OTP is not valid or has expired
+                    if (_db.OTPinfo.Any(x => x.Email == email && x.OTp == otp && x.expertime <= currentUtcTime))
+                    {
+                        ViewBag.expiredmessage = "The entered OTP has expired. Please request a new OTP.";
+                    }
+                    else
+                    {
+                        ViewBag.errormessage = "Invalid OTP. Please try again ";
+                    }
+
+                    return View();
                 }
-
-                return View();
-            }
         }
-
         [Route("/ResendOtp")]
         [HttpPost]
         public IActionResult ResendOtp(string email, UserSingup sg)
@@ -85,9 +87,11 @@ namespace e_commerce_pro.Controllers
             catch (Exception ex)
             {
                 // Log and handle any exceptions
+
                 Console.WriteLine($"Error sending email: {ex.Message}");
                 ModelState.AddModelError("ee", "Error sending email. Please try again later.");
-                return View("Singup");
+
+                return View("/Singup");
             }
             return RedirectToAction("VerifyOTp", new { email = sg.Email });
         }

@@ -13,25 +13,30 @@ namespace e_commerce_pro.Controllers.AdminSide
         {
             _db = db;
         }
-        public IActionResult Categories()
+        //Category List
+        public IActionResult CategoryList()
         {
             List<CategorieS> Objcatagory = _db.categories.ToList();
 
             return View(Objcatagory);
         }
-
+        //Add New Category
         [HttpPost]
         public IActionResult AddCatogary(CategorieS Cg)
         {
-
             if (ModelState.IsValid)
             {
-                _db.categories.Add(Cg);
-                _db.SaveChanges();
-                return RedirectToAction("Categories");
+                var  user = _db.categories.Where(c => c.name == Cg.name).FirstOrDefault();
+                if (user == null) 
+                {
+                    _db.categories.Add(Cg);
+                    _db.SaveChanges();
+                    return RedirectToAction("CategoryList");
+                }
             }
             return View();
         }
+        //Edit Category(Get)
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -48,6 +53,7 @@ namespace e_commerce_pro.Controllers.AdminSide
 
             return View(user);
         }
+        //Edit Category (Post)
         [HttpPost]
         public IActionResult Edit(CategorieS Cg)
         {
@@ -60,7 +66,7 @@ namespace e_commerce_pro.Controllers.AdminSide
             }
             return View();
         }
-
+         //Unblock Block Category from Database
         [HttpPost]
         public IActionResult Unlisted(int ? id)
         {
@@ -74,13 +80,14 @@ namespace e_commerce_pro.Controllers.AdminSide
                 user.IsList = false;
                 _db.SaveChanges();
 
-                return RedirectToAction("Categories");
+                return RedirectToAction("CategoryList");
 
             }
             return NotFound();
 
 
         }
+        //Block Category from Database   
         [HttpPost]
         public IActionResult Listed(int? id)
         {
@@ -94,7 +101,7 @@ namespace e_commerce_pro.Controllers.AdminSide
                 user.IsList = true;
                 _db.SaveChanges();
 
-                return RedirectToAction("Categories");
+                return RedirectToAction("CategoryList");
 
             }
             return NotFound();

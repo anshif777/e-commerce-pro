@@ -34,13 +34,13 @@
                             <td>
                                 @if (user.IsBlock)
                                 {
-                                    <form asp-controller="USingup" asp-action="UnblockUser" asp-route-id="@user.Id" method="post">
+                                    <form asp-controller="Dashboard" asp-action="UnblockUser" asp-route-id="@user.Id" method="post">
                                         <button type="submit" class="btn btn-warning" style="width: 65px; height: 20px; font-size: 12px;">Unblock</button>
                                     </form>
                                 }
                                 else
                                 {
-                                    <form asp-controller="USingup" asp-action="BlockUser" asp-route-id="@user.Id" method="post">
+                                    <form asp-controller="Dashboard" asp-action="BlockUser" asp-route-id="@user.Id" method="post">
                                         <button type="submit" class="btn btn-danger" style="width:55px; height: 20px; font-size: 12px;">Block</button>
                                     </form>
                                 }
